@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Order } from './order.schema';
 import { CreateOrderDto } from './order.dto';
-import { Product } from 'src/product/product';
+import { Product } from '../product/schema';
 import { Request } from 'express';
 import { Req } from '@nestjs/common';
 

@@ -33,7 +33,7 @@ export class CategoriesService {
     const { name } = updateCategoryDto;
     const existingCategory = await this.categoryModel.findById(id);
     if (!existingCategory) {
-      return null; // Повертаємо null, оскільки категорію не знайдено
+      return null; 
     }
     existingCategory.name = name;
     return existingCategory.save();

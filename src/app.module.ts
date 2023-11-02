@@ -6,10 +6,12 @@ import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { ProductModule } from './product/modules';
 import { OrdersModule } from './orders/order.modules';
+import { CategoriesModule } from './category/category.modules';
 import { AuthMiddleware } from './auth.middleware';
 
 @Module({
   imports: [
+    CategoriesModule,
     ProductModule,
     OrdersModule,
     MongooseModule.forRoot(
