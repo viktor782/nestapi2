@@ -9,12 +9,14 @@ import { jwtConstants } from './constants';
 import { Request } from 'express';
 import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC_KEY } from './auth.constants';
+import { AuthService } from './auth.service'; // Додаємо імпорт AuthService
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     private jwtService: JwtService,
     private reflector: Reflector,
+    private authService: AuthService, // Додаємо залежність на AuthService
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -35,7 +37,8 @@ export class AuthGuard implements CanActivate {
       const payload = await this.jwtService.verifyAsync(token, {
         secret: jwtConstants.secret,
       });
-      request['user'] = payload;
+      const user = await this.authService.findOne(payload.usernameOrEmail); // Використовуємо новий метод з AuthService
+      request['user'] = user;
     } catch {
       throw new UnauthorizedException();
     }

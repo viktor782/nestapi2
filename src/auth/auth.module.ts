@@ -17,13 +17,7 @@ import { CategoriesModule } from 'src/category/category.modules';
       signOptions: { expiresIn: '60s' },
     }),
   ],
-  providers: [
-    AuthService,
-    {
-      provide: APP_GUARD,
-      useClass: AuthGuard,
-    },
-  ],
+  providers: [AuthService, AuthGuard],
   controllers: [AuthController],
   exports: [AuthService],
 })
