@@ -8,6 +8,9 @@ import { ProductModule } from './product/modules';
 import { OrdersModule } from './orders/order.modules';
 import { CategoriesModule } from './category/category.modules';
 import { AuthMiddleware } from './auth.middleware';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
+
 
 @Module({
   imports: [
@@ -33,6 +36,8 @@ import { AuthMiddleware } from './auth.middleware';
         PORT: Joi.number().default(3000),
       }),
     }),
+    AuthModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

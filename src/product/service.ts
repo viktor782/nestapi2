@@ -6,6 +6,7 @@ import { Product } from './schema';
 
 @Injectable()
 export class ProductService {
+  [x: string]: any;
   constructor(
     @InjectModel(Product.name) private productModel: Model<Product>,
   ) {}
@@ -64,7 +65,7 @@ export class ProductService {
     return updatedProduct;
   }
 
-  async delete(id: string): Promise<boolean> {
+  async remove(id: string): Promise<boolean> {
     const result = await this.productModel.findByIdAndDelete(id);
     if (!result) {
       throw new NotFoundException('Product not found');
