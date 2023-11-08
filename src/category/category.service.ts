@@ -31,10 +31,15 @@ export class CategoriesService {
 
   async update(id: string, updateCategoryDto: CreateCategoryDto) {
     const { name } = updateCategoryDto;
+    if (!this.isValidObjectId(id)) {
+      throw new NotFoundException('Неправильний ідентифікатор категорії');
+    }
+
     const existingCategory = await this.categoryModel.findById(id);
     if (!existingCategory) {
-      return null; 
+      throw new NotFoundException('Категорія не знайдена');
     }
+
     existingCategory.name = name;
     return existingCategory.save();
   }
@@ -42,5 +47,9 @@ export class CategoriesService {
   async remove(id: string) {
     const result = await this.categoryModel.findByIdAndDelete(id);
     return !!result;
+  }
+  private isValidObjectId(id: string) {
+    const mongoose = require('mongoose');
+    return mongoose.Types.ObjectId.isValid(id);
   }
 }

@@ -26,6 +26,7 @@ export class SecureController {
 }
 
 @Controller('orders')
+@UseGuards(AuthGuard) 
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 

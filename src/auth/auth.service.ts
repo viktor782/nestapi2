@@ -21,6 +21,33 @@ export class AuthService {
 
   constructor(private jwtService: JwtService) {}
 
+  async signUp(
+    username: string,
+    email: string,
+    password: string,
+  ): Promise<User> {
+    const existingUser = this.users.find(
+      (u) => u.email === email || u.username === username,
+    );
+
+    if (existingUser) {
+      throw new UnauthorizedException(
+        'Користувач з таким email або username вже існує',
+      );
+    }
+
+    const newUser: User = {
+      userId: this.users.length + 1,
+      username,
+      email,
+      password,
+    };
+
+    this.users.push(newUser);
+
+    return newUser;
+  }
+
   async signIn(usernameOrEmail: string, pass: string) {
     const user = this.users.find(
       (u) => u.username === usernameOrEmail || u.email === usernameOrEmail,
