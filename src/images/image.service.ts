@@ -26,20 +26,15 @@ export class ImageService {
     return this.imageModel.findByIdAndDelete(id);
   }
 
-  async uploadImages(files: Express.Multer.File[]) {
-    const uploadedImages = [];
+  async uploadImage(file: Express.Multer.File) {
+    const uniqueFilename = `${uuidv4()}-${file.originalname}`;
+    const filePath = path.join('uploads', uniqueFilename);
 
-    for (const file of files) {
-      const uniqueFilename = `${uuidv4()}-${file.originalname}`;
-      const filePath = path.join('uploads', uniqueFilename);
+    fs.writeFileSync(filePath, file.buffer);
 
-      fs.writeFileSync(filePath, file.buffer);
+    const newImage = new this.imageModel({ path: filePath });
+    const savedImage = await newImage.save();
 
-      const newImage = new this.imageModel({ path: filePath });
-      const savedImage = await newImage.save();
-      uploadedImages.push(savedImage);
-    }
-
-    return uploadedImages;
+    return savedImage;
   }
 }

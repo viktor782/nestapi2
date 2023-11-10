@@ -38,8 +38,9 @@ export class ProductController {
     @Query('productName') productName: string,
     @Query('minPrice') minPrice: number,
     @Query('maxPrice') maxPrice: number,
+    @Query('images') images: string,
   ) {
-    return this.productService.find(category, productName, minPrice, maxPrice);
+    return this.productService.find( category, productName, minPrice, maxPrice,);
   }
 
   @Put(':id')

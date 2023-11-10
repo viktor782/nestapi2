@@ -4,20 +4,20 @@ import {
   Delete,
   Param,
   NotFoundException,
-  UploadedFiles,
+  UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
 import { ImageService } from './image.service';
-import { FilesInterceptor } from '@nestjs/platform-express/multer';
+import { FileInterceptor } from '@nestjs/platform-express/multer';
 
 @Controller('images')
 export class ImageController {
   constructor(private readonly imageService: ImageService) {}
 
   @Post()
-  @UseInterceptors(FilesInterceptor('image'))
-  async createImage(@UploadedFiles() files: Express.Multer.File[]) {
-    const createdImages = await this.imageService.uploadImages(files);
+  @UseInterceptors(FileInterceptor('image'))
+  async createImage(@UploadedFile() file: Express.Multer.File) {
+    const createdImages = await this.imageService.uploadImage(file);
     return createdImages;
   }
 

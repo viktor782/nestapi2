@@ -19,14 +19,14 @@ import { AuthGuard } from '../jwt-and-passport-auth/auth.guard';
 @Controller('secure')
 export class SecureController {
   @Get()
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   getSecureData() {
     return 'This is a secure endpoint.';
   }
 }
 
 @Controller('orders')
-@UseGuards(AuthGuard) 
+//@UseGuards(AuthGuard)
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
@@ -57,7 +57,14 @@ export class OrdersController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<boolean> {
-    return this.ordersService.remove(id);
+  async remove(
+    @Param('id') id: string,
+  ): Promise<{ message: string; data?: any }> {
+    const deletedProduct = await this.ordersService.remove(id);
+
+    if (!deletedProduct) {
+      return { message: 'Продукт не знайдено' };
+    }
+    return { message: 'Успішно видалено' };
   }
 }
